@@ -46,6 +46,8 @@ function perception(cam_meas_channel, localization_state_channel, perception_sta
             push!(fresh_cam_meas, meas)
         end
 
+        # write h to turn simple state vehicle to BOUNDING box
+        # return a percept type that gives time as well as list of means of seen vehicles
         latest_localization_state = fetch(localization_state_channel)
         
         # process bounding boxes / run ekf / do what you think is good
@@ -134,7 +136,7 @@ end
 
 
 
-function mmy_client(host::IPAddr=IPv4(0), port=4444; v_step = 1.0, s_step = π/10)
+function mushroom_client(host::IPAddr=IPv4(0), port=4444; v_step = 1.0, s_step = π/10)
     running = true
     socket = Sockets.connect(host, port)
     (peer_host, peer_port) = getpeername(socket)
@@ -159,7 +161,7 @@ function mmy_client(host::IPAddr=IPv4(0), port=4444; v_step = 1.0, s_step = π/1
     localization_state_channel = Channel{MyLocalizationType}(1)
     perception_state_channel = Channel{MyPerceptionType}(1)
 
-    target_map_segment = 73 # (not a valid segment, will be overwritten by message)
+    target_map_segment = 82 # (not a valid segment, will be overwritten by message)
     ego_vehicle_id = 0 # (not a valid id, will be overwritten by message. This is used for discerning ground-truth messages)
 
     localization_state = MyLocalizationType(-100,0.0,0.0,0.0,0.0)
@@ -317,10 +319,10 @@ function mmy_client(host::IPAddr=IPv4(0), port=4444; v_step = 1.0, s_step = π/1
         serialize(socket, cmd)
     end
 
+    
     #@async localize(gps_channel, imu_channel, localization_state_channel)
     #@async perception(cam_channel, localization_state_channel, perception_state_channel)
     #@async decision_making(localization_state_channel, perception_state_channel, map, socket)
-    
 
     # keyboard
     target_velocity = 0.0

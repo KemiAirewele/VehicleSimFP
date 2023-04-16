@@ -15,6 +15,7 @@ using Suppressor
 using Sockets
 using Serialization
 using StaticArrays
+using DataStructures
 
 include("view_car.jl")
 include("objects.jl")
@@ -25,7 +26,8 @@ include("sink.jl")
 include("measurements.jl")
 include("map.jl")
 include("example_project.jl")
+include("decision_making.jl")
 
-export server, shutdown!, keyboard_client
+export server, shutdown!, keyboard_client, mushroom_client
 
 end
