@@ -25,8 +25,11 @@ include("control.jl")
 include("sink.jl")
 include("measurements.jl")
 include("map.jl")
-include("example_project.jl")
+#include("example_project.jl")
+include("project.jl")
 include("decision_making.jl")
+include("perception.jl")
+include("localization.jl")
 
 export server, shutdown!, keyboard_client, mushroom_client
 
